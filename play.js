@@ -1,9 +1,9 @@
 
 
-const name = "student";
+const name = "guy";
 const game = "auto-" + name + "-" + randomInt(1000);
 
-const alphabet = new Set("abcdefghijklmnopqrstuvwxyz".split(''));
+const alphabet = new Set("bcdfghjklmnpqrstvwxyz".split(''));
 
 require('core-js/actual');
 let { Socket } = require('phoenix-channels');
@@ -12,6 +12,8 @@ let socket = new Socket("wss://words.homework.quest/socket", {debug: true});
 socket.connect();
 
 let channel = socket.channel("game:" + game, {name});
+
+let c = '';
 
 const fs = require('node:fs');
 const zlib = require('zlib');
@@ -42,6 +44,9 @@ function patMatch(pat, word, guesses) {
       // TODO: consider guesses
       return false;
     }
+    else {
+    c = wchs[ii];
+    }
   }
 
   return true;
@@ -61,17 +66,22 @@ function onView(view) {
     for (let word of words) {
       if (patMatch(pat, word, guesses)) {
         console.log(`pat [${pat}] could be [${word}]`);
+            
+
+          }
+        }
+        }
         break;
       }
     }
   }
 
-  let ch = randomPick(moves);
-  console.log("guess:", ch);
+let ch = i;
+console.log("guess:", ch);
 
-  if (moves.length > 0 && puzzle.includes('-')) {
-    channel.push("guess", {ch: ch});
-  }
+ if (moves.length > 0 && puzzle.includes('-')) {
+              channel.push("guess", {ch: ch});
+    }
   else {
     console.log("done", view);
     process.exit();
